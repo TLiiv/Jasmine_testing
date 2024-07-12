@@ -1,1 +1,4 @@
 https://www.youtube.com/watch?v=_I2dKKFVmfo&ab_channel=Scrimba
+
+Jasmine:
+https://jasmine.github.io/pages/getting_started.html

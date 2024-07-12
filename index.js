@@ -1,3 +1,5 @@
+//30:27
+
 // function insertDashes(str){
 
 // }
@@ -19,19 +21,52 @@
 //     })
 // })
 
-class User{
-    firstName;
-    lastName;
-    middleName;
-}
+// User.js
+class User {
 
-constructor(data={}){
-    this.firstName= data.firstName || '';
-    this.lastName = data.lastName || '';
-    this.middleName = data.middleName;
-}
+    constructor(data = {}) {
+      this.firstName = data.firstName || '';
+      this.lastName = data.lastName || '';
+      this.middleName = data.middleName || '';
+    }
+  }
+  
 
-//Test
-describe('User', () => {
-    it('')
+  
+
+
+//Tests
+
+describe(`${User.name} Class`,()=> {
+    describe("Default values",()=>{
+        it('first name defaults to empty',()=>{
+            //Arrange
+            const data = {firstName: null}
+            //Act
+            const model = new User(data);
+            //Assert
+            expect(model.firstName).toBe('');
+           });
+        
+        it("last name defaults to empty",()=>{
+            //Arrange
+            const data = {lastName:null}
+            //Act
+            const model = new User(data);
+            //Assert
+            expect(model.lastName).toBe('');
+        });
+        
+        it("middle name defaults to empty",()=>{
+            //Arrange
+            const data = {middleName:null};
+            //Act
+            const model = new User(data);
+            //Assert
+            expect(model.middleName).toBe('');
+         });
+    })
 })
+
+
+
