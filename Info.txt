@@ -2,3 +2,25 @@ https://www.youtube.com/watch?v=_I2dKKFVmfo&ab_channel=Scrimba
 
 Jasmine:
 https://jasmine.github.io/pages/getting_started.html
+
+describe("Full name",()=>{
+      beforeEach(()=>{ <-- before each selleks, et mingi default value kõikidele testidele anda
+        model = new User({firstName:"Keegi", lastName:"Suvaline"})
+      })
+      it('middle initial when middleName is defined with first and last',()=>{
+        //arrange
+        model.middleName = 'Keskmine';
+        //act
+        const result = model.fullName;
+        //assert
+        expect(result).toBe(`${model.firstName} ${model.middleName[0]}. ${model.lastName}}`)
+      })
+      it('when no middle name return first name and last name',()=>{
+        //arrange
+        model.middleName ='';
+        //act
+        result = model.fullName;
+        //assert
+        expect(result).toBe(`${model.firstName} ${model.lastName}}`)
+      })
+    })

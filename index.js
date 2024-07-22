@@ -29,8 +29,15 @@ class User {
       this.lastName = data.lastName || '';
       this.middleName = data.middleName || '';
     }
+    get fullName(){
+      if(this.middleName.length > 0){
+        return `${this.firstName} ${this.middleName[0]}. ${this.lastName}}`
+      }
+      return `${this.firstName} ${this.lastName}}`
+    }
   }
   
+
 
   
 
@@ -38,33 +45,48 @@ class User {
 //Tests
 
 describe(`${User.name} Class`,()=> {
+  let model;
+
+  beforeEach(()=>{
+    model = new User();
+  });
+
     describe("Default values",()=>{
         it('first name defaults to empty',()=>{
-            //Arrange
-            const data = {firstName: null}
-            //Act
-            const model = new User(data);
             //Assert
             expect(model.firstName).toBe('');
            });
         
         it("last name defaults to empty",()=>{
-            //Arrange
-            const data = {lastName:null}
-            //Act
-            const model = new User(data);
             //Assert
             expect(model.lastName).toBe('');
         });
         
         it("middle name defaults to empty",()=>{
-            //Arrange
-            const data = {middleName:null};
-            //Act
-            const model = new User(data);
             //Assert
             expect(model.middleName).toBe('');
          });
+    })
+    describe("Full name",()=>{
+      beforeEach(()=>{
+        model = new User({firstName:"Keegi", lastName:"Suvaline"})
+      })
+      it('middle initial when middleName is defined with first and last',()=>{
+        //arrange
+        model.middleName = 'Keskmine';
+        //act
+        const result = model.fullName;
+        //assert
+        expect(result).toBe(`${model.firstName} ${model.middleName[0]}. ${model.lastName}}`)
+      })
+      it('when no middle name return first name and last name',()=>{
+        //arrange
+        model.middleName ='';
+        //act
+        result = model.fullName;
+        //assert
+        expect(result).toBe(`${model.firstName} ${model.lastName}}`)
+      })
     })
 })
 
