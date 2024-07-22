@@ -24,3 +24,9 @@ describe("Full name",()=>{
         expect(result).toBe(`${model.firstName} ${model.lastName}}`)
       })
     })
+
+kui tahad ainult ühte testi jooksutada siis it asemele fit ehk siis f asjade ette võib 
+describei ees ka olla vm (f tähendab focus)
+fit('middle initial when middleName is defined with first and last',()=>{
+
+kui tahad midagi skippida siis on (x) ees
