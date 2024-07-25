@@ -1,4 +1,4 @@
-//30:27
+//57.25
 
 // function insertDashes(str){
 
@@ -22,31 +22,46 @@
 // })
 
 // User.js
-class User {
 
-    constructor(data = {}) {
-      this.firstName = data.firstName || '';
-      this.lastName = data.lastName || '';
-      this.middleName = data.middleName || '';
+class UserService {
+  getUserById(id) {
+    return fetch(`https://jsonplaceholder.typicode.com/users/${id}`)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      });
+  }
+}
+
+
+class User {
+  constructor(data, userService) {
+    this.firstName = data.firstName || '';
+    this.lastName = data.lastName || '';
+    this.middleName = data.middleName || '';
+    this.id = data.id;
+    this.userService = userService;
+  }
+
+  get fullName() {
+    if (this.middleName.length > 0) {
+      return `${this.firstName} ${this.middleName[0]}. ${this.lastName}`;
     }
-    get fullName(){
-      if(this.middleName.length > 0){
-        return `${this.firstName} ${this.middleName[0]}. ${this.lastName}}`
-      }
-      return `${this.firstName} ${this.lastName}`
-    }
-    sayMyName = ()=>{
-      window.alert(this.fullName);
-    }
-    getCodeName(){
-      const isATestingGod = confirm('Are you a testing god?');
-      if(isATestingGod){
-        return 'TESTING GOD'
-      }else{
-        return `Scrub skibbing tests in his best friend's ride!`;
-      }
+    return `${this.firstName} ${this.lastName}`;
+  }
+
+  async getMyFullUserData() {
+    try {
+      const userData = await this.userService.getUserById(this.id);
+      return userData;
+    } catch (error) {
+      console.error('Failed to fetch user data:', error);
     }
   }
+}
+
   
 
 
@@ -54,7 +69,40 @@ class User {
 
 
 //Tests
+describe(`${User.name} Class`, () => {
+  let model;
+  let mockUserService;
 
+  beforeEach(() => {
+    mockUserService = {
+      lastId: null,
+      user: {},
+      getUserById(id) {
+        this.lastId = id;
+        return Promise.resolve(this.user);
+      }
+    };
+    const data = { firstName: 'Keegi', middleName: 'Keskel', lastName: 'Lõpus', id: 1 };
+    model = new User(data, mockUserService);
+  });
+
+  //Mock
+  describe('getMyFullUserData', () => {
+    it('gets user data by id', async () => {
+      // arrange
+      mockUserService.lastId = null;
+      mockUserService.user = new User({ firstName: 'Kqwegi', middleName: 'KeASdel', lastName: 'KASs', id: 2 });
+      // act
+      const result = await model.getMyFullUserData();
+      // assert
+      expect(mockUserService.lastId).toBe(1);
+    });
+  });
+});
+
+
+
+    
 // describe(`${User.name} Class`,()=> {
 //   let model;
 
@@ -100,60 +148,3 @@ class User {
 //       })
 //     })
 // })
-
-
-describe(`${User.name} Class`,()=> {
-  let model;
-
-  beforeEach(()=>{
-    model = new User();
-  });
-  describe('Say my name',()=>{
-    it('alerts full name of the user',()=>{
-      //arrange
-      model.firstName="keegi";
-      model.lastName="suvakas";
-      spyOn(window,'alert');
-      //act
-      model.sayMyName();
-      //assert
-      expect(window.alert).toHaveBeenCalled();
-      expect(window.alert).toHaveBeenCalledWith('keegi suvakas');
-    })
-    describe('get code name',()=>{
-      it('is coding god when confirmed',()=> {
-        //arrange
-        spyOn(window,'confirm').and.returnValue(true);
-        //act
-        const result = model.getCodeName();
-        //assert
-        expect(result).toBe('TESTING GOD')
-      })
-    })
-    describe('get code name',()=>{
-      it('is scrub when not doing testing',()=> {
-        //arrange
-        spyOn(window,'confirm').and.returnValue(false);
-        //act
-        const result = model.getCodeName();
-
-        //assert
-        expect(result).toBe("Scrub skibbing tests in his best friend's ride!")
-      })
-    })
-  })
-    
-      it('asks a user if  they are a testing god',()=> {
-        //arrange
-        spyOn(window,'confirm').and.returnValue(true);
-        //act
-        const result = model.getCodeName();
-
-        //assert
-        expect(window.confirm).toHaveBeenCalledWith(`Are you a testing god?`)
-      })
-    })
-  
-  
-
-

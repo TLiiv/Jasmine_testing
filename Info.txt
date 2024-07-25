@@ -1,5 +1,8 @@
 https://www.youtube.com/watch?v=_I2dKKFVmfo&ab_channel=Scrimba
 
+OOP Solid prinmciple
+https://www.digitalocean.com/community/conceptual-articles/s-o-l-i-d-the-first-five-principles-of-object-oriented-design
+
 Jasmine:
 https://jasmine.github.io/pages/getting_started.html
 
@@ -30,3 +33,33 @@ describei ees ka olla vm (f tähendab focus)
 fit('middle initial when middleName is defined with first and last',()=>{
 
 kui tahad midagi skippida siis on (x) ees
+
+api//third party testimiseks on spyOn() vaja kasutada
+
+describe(`${User.name} Class`,()=> {
+  let model;
+
+  beforeEach(()=>{
+    model = new User();
+  });
+  describe('Say my name',()=>{
+    it('alerts full name of the user',()=>{
+      //arrange
+      model.firstName="keegi";
+      model.lastName="suvakas";
+      spyOn(window,'alert');<---
+      //act
+      model.sayMyName();
+      //assert
+      expect(window.alert).toHaveBeenCalled();
+või spetsiifilisemalt:
+	expect(window.alert).toHaveBeenCalledWith('keegi suvakas');
+    })
+  })
+  
+})
+
+Mock(tehakse tavaliselt API callidele) - a specialized technique used in software development processes to test how different 
+parts of a system interact with each other. Pmst kui teste jooksutad igakord kui test testib 
+API-t siissee saadab requesti API-le. (ressurssimahukas) selleasemel mockitakse.
+
