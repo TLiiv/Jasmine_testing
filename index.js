@@ -91,13 +91,22 @@ describe(`${User.name} Class`, () => {
     it('gets user data by id', async () => {
       // arrange
       mockUserService.lastId = null;
-      mockUserService.user = new User({ firstName: 'Kqwegi', middleName: 'KeASdel', lastName: 'KASs', id: 2 });
+     
       // act
       const result = await model.getMyFullUserData();
       // assert
       expect(mockUserService.lastId).toBe(1);
     });
   });
+  it('gets full user data',async()=>{
+    //arrange
+    mockUserService.user = new User({ firstName: 'Kqwegi', middleName: 'KeASdel', lastName: 'KASs', id: 2 });
+    //act
+    const result = await model.getMyFullUserData();
+    //assert
+    expect(result.id).toBe(2);
+    expect(result.firstName).toBe('Kqwegi');
+  })
 });
 
 
